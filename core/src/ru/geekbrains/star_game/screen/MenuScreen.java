@@ -6,11 +6,15 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.star_game.base.BaseScreen;
+import ru.geekbrains.star_game.math.Rect;
+import ru.geekbrains.star_game.sprite.Background;
 
 public class MenuScreen extends BaseScreen {
 
+    private Texture bg;
+    private Background background;
+
     private Texture img;
-    private Texture background;
 
     private static final float speed = 2f;
     private int screenX;
@@ -36,7 +40,8 @@ public class MenuScreen extends BaseScreen {
     public void show() {
         super.show();
         img = new Texture("spaceship2.png");
-        background = new Texture("kosmos.jpg");
+        bg = new Texture("kosmos2.jpg");
+        background = new Background(bg);
         pos = new Vector2();
         target = new Vector2();
         velocity = new Vector2();
@@ -46,29 +51,31 @@ public class MenuScreen extends BaseScreen {
     @Override
     public void render(float delta) {
         super.render(delta);
-        moveShip();
+//        moveShip();
         Gdx.gl.glClearColor(1, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
-        batch.draw(background, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        batch.draw(img, pos.x, pos.y, 128, 128);
+        background.draw(batch);
+        batch.draw(img, pos.x - 0.1f, pos.y - 0.1f, 0.2f, 0.2f);
         batch.end();
     }
 
     @Override
     public void dispose() {
-        super.dispose();
         img.dispose();
-        background.dispose();
+        bg.dispose();
+        super.dispose();
     }
 
     @Override
-    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-        this.screenX = screenX - 64;
-        this.screenY = Gdx.graphics.getHeight() - screenY - 64;
-        return false;
+    public void resize(Rect worldBounds) {
+        background.resize(worldBounds);
     }
 
+    @Override
+    public boolean touchDown(Vector2 touch, int pointer, int button) {
+        return super.touchDown(touch, pointer, button);
+    }
 
     @Override
     public boolean keyDown(int keycode) {
