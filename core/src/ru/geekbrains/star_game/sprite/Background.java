@@ -2,7 +2,6 @@ package ru.geekbrains.star_game.sprite;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
 import ru.geekbrains.star_game.base.Sprite;
 import ru.geekbrains.star_game.math.Rect;
 
