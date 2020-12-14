@@ -1,9 +1,11 @@
 package ru.geekbrains.star_game.screen;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
 import ru.geekbrains.star_game.base.BaseScreen;
@@ -14,11 +16,13 @@ import ru.geekbrains.star_game.sprite.Star;
 
 public class GameScreen extends BaseScreen {
 
-    private final static int STAR_COUNT = 64;
+    private final static int STAR_COUNT = 128;
     private TextureAtlas atlas;
     private Texture bgImg;
     private Background background;
     private SpaceShip spaceShip;
+    private Texture shipImg;
+    private TextureRegion shipNorm;
     private Star[] stars;
 
 
@@ -27,8 +31,12 @@ public class GameScreen extends BaseScreen {
         super.show();
         bgImg = new Texture("textures/bg.png");
         background = new Background(bgImg);
-        spaceShip = new SpaceShip(atlas);
+
         atlas = new TextureAtlas("textures/mainAtlas.tpack");
+        shipImg = new Texture("textures/mainAtlas.png");
+        shipNorm = new TextureRegion(shipImg, 916, 95, 195, 287);
+        spaceShip = new SpaceShip(shipNorm);
+
         stars = new Star[STAR_COUNT];
         for (int i = 0; i < STAR_COUNT; i++) {
             stars[i] = new Star(atlas);
@@ -60,6 +68,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public boolean keyDown(int keycode) {
+        spaceShip.keyDown(keycode);
         return super.keyDown(keycode);
     }
 

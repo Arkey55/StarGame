@@ -1,5 +1,6 @@
 package ru.geekbrains.star_game.sprite;
 
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -14,8 +15,8 @@ public class SpaceShip extends Sprite {
     private Vector2 velocity;
     private Vector2 temp;
 
-    public SpaceShip(TextureAtlas atlas) {
-        super(atlas.findRegion("main_ship"));
+    public SpaceShip(TextureRegion region) {
+        super(new TextureRegion(region));
         target = new Vector2();
         velocity = new Vector2();
         temp = new Vector2();
@@ -40,6 +41,29 @@ public class SpaceShip extends Sprite {
     @Override
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         this.target.set(touch);
+        return false;
+    }
+
+    public boolean keyDown(int keycode) {
+        switch (keycode) {
+            case Input.Keys.UP:
+                this.target.add(0, 0.05f);
+                break;
+            case Input.Keys.DOWN:
+                this.target.add(0, -0.05f);
+                break;
+            case Input.Keys.RIGHT:
+                this.target.add(0.05f, 0);
+                break;
+            case Input.Keys.LEFT:
+                this.target.add(-0.05f, 0);
+                break;
+        }
+        return false;
+    }
+
+    public boolean keyUp(int keycode) {
+        System.out.println("keyUp keycode: " + keycode);
         return false;
     }
 }
