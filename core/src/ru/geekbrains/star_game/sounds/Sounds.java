@@ -5,10 +5,8 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 
 public class Sounds {
-//    private Music bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
     private Music bgMusic;
-//    private Sound bulletSound;
-    private Sound bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/bullet.wav"));
+    private Sound bulletSound;
 
     public Sounds() {
         bgMusic = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
