@@ -12,6 +12,7 @@ import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.star_game.base.BaseScreen;
 import ru.geekbrains.star_game.math.Rect;
 import ru.geekbrains.star_game.pool.BulletPool;
+import ru.geekbrains.star_game.sounds.Sounds;
 import ru.geekbrains.star_game.sprite.Background;
 import ru.geekbrains.star_game.sprite.Bullet;
 import ru.geekbrains.star_game.sprite.SpaceShip;
@@ -26,6 +27,7 @@ public class GameScreen extends BaseScreen {
     private Star[] stars;
     private BulletPool bulletPool;
     private SpaceShip spaceShip;
+
 
     @Override
     public void show() {

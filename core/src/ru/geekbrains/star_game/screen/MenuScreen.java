@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.star_game.base.BaseScreen;
 import ru.geekbrains.star_game.math.Rect;
+import ru.geekbrains.star_game.sounds.Sounds;
 import ru.geekbrains.star_game.sprite.Background;
 import ru.geekbrains.star_game.sprite.ButtonExit;
 import ru.geekbrains.star_game.sprite.ButtonPlay;
@@ -24,6 +25,7 @@ public class MenuScreen extends BaseScreen {
     private ButtonExit btnExit;
     private ButtonPlay btnPlay;
     private final Game game;
+    private Sounds bgMusic;
 
 
     public MenuScreen(Game game) {
@@ -43,6 +45,9 @@ public class MenuScreen extends BaseScreen {
 
         btnExit = new ButtonExit(atlas);
         btnPlay = new ButtonPlay(atlas, game);
+
+        bgMusic = new Sounds();
+        bgMusic.playMusic();
     }
 
     @Override
@@ -56,6 +61,7 @@ public class MenuScreen extends BaseScreen {
     public void dispose() {
         bgImg.dispose();
         atlas.dispose();
+        bgMusic.dispose();
         super.dispose();
     }
 
