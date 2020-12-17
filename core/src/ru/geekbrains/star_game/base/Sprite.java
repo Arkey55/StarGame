@@ -3,18 +3,26 @@ package ru.geekbrains.star_game.base;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-
 import ru.geekbrains.star_game.math.Rect;
+import ru.geekbrains.star_game.utils.Regions;
 
 public class Sprite extends Rect {
     private float angle;
     private float scale = 1f;
-    private TextureRegion[] regions;
+    protected TextureRegion[] regions;
     private int frame;
+    private boolean destroyed;
+
+    public Sprite() {
+    }
 
     public Sprite(TextureRegion region) {
         regions = new TextureRegion[1];
         regions[0] = region;
+    }
+
+    public Sprite(TextureRegion region, int rows, int cols, int frames) {
+        regions = Regions.split(region, rows, cols, frames);
     }
 
     public void setHeightProportion(float height){
@@ -69,5 +77,17 @@ public class Sprite extends Rect {
 
     public void setScale(float scale) {
         this.scale = scale;
+    }
+
+    public boolean isDestroyed() {
+        return destroyed;
+    }
+
+    public void destroyBullet(){
+        destroyed = true;
+    }
+
+    public void flushDestroy(){
+        destroyed = false;
     }
 }
