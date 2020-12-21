@@ -1,25 +1,29 @@
 package ru.geekbrains.star_game.sprite;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.TimeUtils;
-
 import ru.geekbrains.star_game.base.Sprite;
 import ru.geekbrains.star_game.math.Rect;
 import ru.geekbrains.star_game.pool.BulletPool;
-import ru.geekbrains.star_game.sounds.Sounds;
 
 public class SpaceShip extends Sprite {
 
     private static final float HEIGHT = 0.15f;
     private static final float BOTTOM_MARGIN = 0.05f;
     private static final int INVALID_POINTER = -1;
+    private static final float RELOAD_INTERVAL = 0.2f;
 
     private final BulletPool bulletPool;
     private final TextureRegion bulletRegion;
+    private Sound bulletSound;
+    private final Vector2 bulletPos;
     private final Vector2 bulletV;
+    private float bulletHeight;
+    private int damage;
 
     private Rect worldBounds;
     private final Vector2 v;
@@ -29,8 +33,7 @@ public class SpaceShip extends Sprite {
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-    private final Sounds bulletSound;
-    private long timer;
+    private float reloadTimer;
 
 
     public SpaceShip(TextureAtlas atlas, BulletPool bulletPool) {
@@ -38,11 +41,12 @@ public class SpaceShip extends Sprite {
         this.bulletPool = bulletPool;
         bulletRegion = atlas.findRegion("bulletMainShip");
         bulletV = new Vector2(0, 0.5f);
+        bulletPos = new Vector2();
+        bulletHeight = 0.01f;
+        damage = 1;
         v = new Vector2();
         v0 = new Vector2(0.5f, 0);
-
-        bulletSound = new Sounds();
-        timer = TimeUtils.nanoTime();
+        bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
     }
 
     @Override
@@ -54,12 +58,13 @@ public class SpaceShip extends Sprite {
 
     @Override
     public void update(float delta) {
-        if (TimeUtils.timeSinceNanos(timer) > 250000000) {
-            shoot();
-            timer = TimeUtils.nanoTime();
-        }
-
         pos.mulAdd(v, delta);
+        bulletPos.set(pos.x, pos.y + getHalfHeight());
+        reloadTimer += delta;
+        if (reloadTimer >= RELOAD_INTERVAL){
+            reloadTimer = 0;
+            shoot();
+        }
         if (getRight() > worldBounds.getRight()){
             setRight(worldBounds.getRight());
             stop();
@@ -68,6 +73,10 @@ public class SpaceShip extends Sprite {
             setLeft(worldBounds.getLeft());
             stop();
         }
+    }
+
+    public void dispose(){
+        bulletSound.dispose();
     }
 
     @Override
@@ -159,8 +168,8 @@ public class SpaceShip extends Sprite {
     }
 
     private void shoot(){
+        bulletSound.play(0.3f);
         Bullet bullet = bulletPool.obtain();
-        bullet.set(this, bulletRegion, pos, bulletV, 0.01f, worldBounds, 1);
-        bulletSound.playBulletSound();
+        bullet.set(this, bulletRegion, bulletPos, bulletV, bulletHeight, worldBounds, damage);
     }
 }
