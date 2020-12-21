@@ -4,25 +4,25 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-
 import ru.geekbrains.star_game.math.Rect;
 import ru.geekbrains.star_game.math.Rnd;
 import ru.geekbrains.star_game.pool.EnemyPool;
 import ru.geekbrains.star_game.sprite.Enemy;
 
 public class EnemyEmitter {
+
     private static final float GENERATE_INTERVAL = 4f;
 
     private static final float ENEMY_SMALL_HEIGHT = 0.1f;
     private static final float ENEMY_SMALL_BULLET_HEIGHT = 0.01f;
     private static final int ENEMY_SMALL_BULLET_DAMAGE = 1;
-    private static final float ENEMY_SMALL_RELOAD_INTERVAL = 3f;
+    private static final float ENEMY_SMALL_RELOAD_INTERVAL = 1.5f;
     private static final int ENEMY_SMALL_HP = 1;
 
     private static final float ENEMY_MIDDLE_HEIGHT = 0.15f;
     private static final float ENEMY_MIDDLE_BULLET_HEIGHT = 0.02f;
     private static final int ENEMY_MIDDLE_BULLET_DAMAGE = 5;
-    private static final float ENEMY_MIDDLE_RELOAD_INTERVAL = 3f;
+    private static final float ENEMY_MIDDLE_RELOAD_INTERVAL = 2f;
     private static final int ENEMY_MIDDLE_HP = 5;
 
     private static final float ENEMY_BIG_HEIGHT = 0.2f;
@@ -31,7 +31,7 @@ public class EnemyEmitter {
     private static final float ENEMY_BIG_RELOAD_INTERVAL = 2f;
     private static final int ENEMY_BIG_HP = 10;
 
-    private final Vector2 enemySmallV = new Vector2(0f, -0.2f);
+    private final Vector2 enemySmallV = new Vector2(0f, -0.15f);
     private final Vector2 enemySmallBulletV = new Vector2(0f, -0.3f);
 
     private final Vector2 enemyMiddleV = new Vector2(0f, -0.03f);
@@ -116,8 +116,8 @@ public class EnemyEmitter {
                 );
             }
             enemy.pos.x = Rnd.nextFloat(
-                    worldBounds.getLeft() - enemy.getHalfWidth(),
-                    worldBounds.getRight() + enemy.getHalfWidth()
+                    worldBounds.getLeft() + enemy.getHalfWidth(),
+                    worldBounds.getRight() - enemy.getHalfWidth()
                     );
             enemy.setBottom(worldBounds.getTop());
         }
