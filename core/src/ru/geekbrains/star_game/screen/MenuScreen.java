@@ -2,14 +2,12 @@ package ru.geekbrains.star_game.screen;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Vector2;
 import ru.geekbrains.star_game.base.BaseScreen;
 import ru.geekbrains.star_game.math.Rect;
-import ru.geekbrains.star_game.sounds.Sounds;
 import ru.geekbrains.star_game.sprite.Background;
 import ru.geekbrains.star_game.sprite.ButtonExit;
 import ru.geekbrains.star_game.sprite.ButtonPlay;

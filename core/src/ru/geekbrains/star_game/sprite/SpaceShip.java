@@ -6,39 +6,27 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+
+import ru.geekbrains.star_game.base.Ship;
 import ru.geekbrains.star_game.base.Sprite;
 import ru.geekbrains.star_game.math.Rect;
 import ru.geekbrains.star_game.pool.BulletPool;
 
-public class SpaceShip extends Sprite {
+public class SpaceShip extends Ship {
+
+    private static final int HP = 100;
+    private static final float RELOAD_INTERVAL = 0.2f;
 
     private static final float HEIGHT = 0.15f;
     private static final float BOTTOM_MARGIN = 0.05f;
     private static final int INVALID_POINTER = -1;
-    private static final float RELOAD_INTERVAL = 0.2f;
-
-    private final BulletPool bulletPool;
-    private final TextureRegion bulletRegion;
-    private Sound bulletSound;
-    private final Vector2 bulletPos;
-    private final Vector2 bulletV;
-    private float bulletHeight;
-    private int damage;
-
-    private Rect worldBounds;
-    private final Vector2 v;
-    private final Vector2 v0;
     private boolean pressedLeft;
     private boolean pressedRight;
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-    private float reloadTimer;
-
-
     public SpaceShip(TextureAtlas atlas, BulletPool bulletPool) {
-        super(atlas.findRegion("main_ship"), 1, 2, 2);
-        this.bulletPool = bulletPool;
+        super(atlas.findRegion("main_ship"), 1, 2, 2, bulletPool);
         bulletRegion = atlas.findRegion("bulletMainShip");
         bulletV = new Vector2(0, 0.5f);
         bulletPos = new Vector2();
@@ -47,6 +35,8 @@ public class SpaceShip extends Sprite {
         v = new Vector2();
         v0 = new Vector2(0.5f, 0);
         bulletSound = Gdx.audio.newSound(Gdx.files.internal("sounds/laser.wav"));
+        reloadInterval = RELOAD_INTERVAL;
+        hp = HP;
     }
 
     @Override
@@ -58,13 +48,8 @@ public class SpaceShip extends Sprite {
 
     @Override
     public void update(float delta) {
-        pos.mulAdd(v, delta);
+        super.update(delta);
         bulletPos.set(pos.x, pos.y + getHalfHeight());
-        reloadTimer += delta;
-        if (reloadTimer >= RELOAD_INTERVAL){
-            reloadTimer = 0;
-            shoot();
-        }
         if (getRight() > worldBounds.getRight()){
             setRight(worldBounds.getRight());
             stop();
@@ -167,9 +152,5 @@ public class SpaceShip extends Sprite {
         v.setZero();
     }
 
-    private void shoot(){
-        bulletSound.play(0.3f);
-        Bullet bullet = bulletPool.obtain();
-        bullet.set(this, bulletRegion, bulletPos, bulletV, bulletHeight, worldBounds, damage);
-    }
+
 }

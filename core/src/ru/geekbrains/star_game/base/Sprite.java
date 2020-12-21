@@ -83,7 +83,7 @@ public class Sprite extends Rect {
         return destroyed;
     }
 
-    public void destroyBullet(){
+    public void destroy(){
         destroyed = true;
     }
 
