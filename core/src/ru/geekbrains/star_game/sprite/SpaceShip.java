@@ -2,13 +2,9 @@ package ru.geekbrains.star_game.sprite;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-
 import ru.geekbrains.star_game.base.Ship;
-import ru.geekbrains.star_game.base.Sprite;
 import ru.geekbrains.star_game.math.Rect;
 import ru.geekbrains.star_game.pool.BulletPool;
 
@@ -151,6 +147,4 @@ public class SpaceShip extends Ship {
     private void stop(){
         v.setZero();
     }
-
-
 }

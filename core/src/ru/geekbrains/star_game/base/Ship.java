@@ -17,8 +17,8 @@ public class Ship extends Sprite {
     protected float bulletHeight;
     protected int damage;
     protected int hp;
-    private float reloadTimer;
-    protected float reloadInterval = 0.2f;
+    protected float reloadTimer;
+    protected float reloadInterval;
     protected Vector2 v;
     protected Vector2 v0;
     protected Rect worldBounds;
@@ -36,7 +36,6 @@ public class Ship extends Sprite {
     @Override
     public void update(float delta) {
         pos.mulAdd(v, delta);
-
         reloadTimer += delta;
         if (reloadTimer >= reloadInterval){
             reloadTimer = 0;
@@ -44,7 +43,7 @@ public class Ship extends Sprite {
         }
     }
 
-    private void shoot(){
+    public void shoot(){
         bulletSound.play(0.3f);
         Bullet bullet = bulletPool.obtain();
         bullet.set(this, bulletRegion, bulletPos, bulletV, bulletHeight, worldBounds, damage);
