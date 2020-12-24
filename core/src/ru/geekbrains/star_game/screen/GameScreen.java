@@ -1,5 +1,6 @@
 package ru.geekbrains.star_game.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
@@ -17,6 +18,8 @@ import ru.geekbrains.star_game.pool.EnemyPool;
 import ru.geekbrains.star_game.pool.ExplosionPool;
 import ru.geekbrains.star_game.sprite.Background;
 import ru.geekbrains.star_game.sprite.Bullet;
+import ru.geekbrains.star_game.sprite.ButtonExit;
+import ru.geekbrains.star_game.sprite.ButtonNewGame;
 import ru.geekbrains.star_game.sprite.Enemy;
 import ru.geekbrains.star_game.sprite.GameOver;
 import ru.geekbrains.star_game.sprite.SpaceShip;
@@ -41,8 +44,12 @@ public class GameScreen extends BaseScreen {
     private Sound explosionSound;
     private State state;
     private GameOver gameOver;
+    private ButtonNewGame btnNG;
+    private final Game game;
 
-
+    public GameScreen(Game game) {
+        this.game = game;
+    }
 
     @Override
     public void show() {
@@ -62,6 +69,7 @@ public class GameScreen extends BaseScreen {
         enemyEmitter = new EnemyEmitter(atlas, worldBounds, bulletSound, enemyPool);
         spaceShip = new SpaceShip(atlas, bulletPool, explosionPool);
         gameOver = new GameOver(atlas);
+        btnNG = new ButtonNewGame(atlas, game);
         music = Gdx.audio.newMusic(Gdx.files.internal("sounds/music.mp3"));
         music.setLooping(true);
         music.play();
@@ -86,6 +94,7 @@ public class GameScreen extends BaseScreen {
         }
         spaceShip.resize(worldBounds);
         gameOver.resize(worldBounds);
+        btnNG.resize(worldBounds);
     }
 
     @Override
@@ -122,7 +131,10 @@ public class GameScreen extends BaseScreen {
     public boolean touchDown(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING) {
             spaceShip.touchDown(touch, pointer, button);
+        } else if (state == State.GAME_OVER){
+            btnNG.touchDown(touch, pointer, button);
         }
+
         return false;
     }
 
@@ -130,6 +142,8 @@ public class GameScreen extends BaseScreen {
     public boolean touchUp(Vector2 touch, int pointer, int button) {
         if (state == State.PLAYING) {
             spaceShip.touchUp(touch, pointer, button);
+        } else if (state == State.GAME_OVER){
+            btnNG.touchUp(touch, pointer, button);
         }
         return false;
     }
@@ -199,6 +213,7 @@ public class GameScreen extends BaseScreen {
             spaceShip.draw(batch);
         } else if (state == State.GAME_OVER){
             gameOver.draw(batch);
+            btnNG.draw(batch);
         }
         explosionPool.drawActiveObjects(batch);
         batch.end();
