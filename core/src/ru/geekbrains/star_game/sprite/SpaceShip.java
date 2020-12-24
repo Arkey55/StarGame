@@ -11,10 +11,11 @@ import ru.geekbrains.star_game.base.Ship;
 import ru.geekbrains.star_game.base.Sprite;
 import ru.geekbrains.star_game.math.Rect;
 import ru.geekbrains.star_game.pool.BulletPool;
+import ru.geekbrains.star_game.pool.ExplosionPool;
 
 public class SpaceShip extends Ship {
 
-    private static final int HP = 100;
+    private static final int HP = 10;
     private static final float RELOAD_INTERVAL = 0.2f;
 
     private static final float HEIGHT = 0.15f;
@@ -25,8 +26,8 @@ public class SpaceShip extends Ship {
     private int leftPointer = INVALID_POINTER;
     private int rightPointer = INVALID_POINTER;
 
-    public SpaceShip(TextureAtlas atlas, BulletPool bulletPool) {
-        super(atlas.findRegion("main_ship"), 1, 2, 2, bulletPool);
+    public SpaceShip(TextureAtlas atlas, BulletPool bulletPool, ExplosionPool explosionPool) {
+        super(atlas.findRegion("main_ship"), 1, 2, 2, bulletPool, explosionPool);
         bulletRegion = atlas.findRegion("bulletMainShip");
         bulletV = new Vector2(0, 0.5f);
         bulletPos = new Vector2();
@@ -62,6 +63,13 @@ public class SpaceShip extends Ship {
 
     public void dispose(){
         bulletSound.dispose();
+    }
+
+    public boolean isBulletCollision(Bullet bullet){
+        return !(bullet.getRight() < getLeft()
+                || bullet.getLeft() > getRight()
+                || bullet.getBottom() > pos.y
+                || bullet.getTop() < getBottom());
     }
 
     @Override

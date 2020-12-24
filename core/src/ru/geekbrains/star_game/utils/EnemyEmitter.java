@@ -116,8 +116,8 @@ public class EnemyEmitter {
                 );
             }
             enemy.pos.x = Rnd.nextFloat(
-                    worldBounds.getLeft() - enemy.getHalfWidth(),
-                    worldBounds.getRight() + enemy.getHalfWidth()
+                    worldBounds.getLeft() + enemy.getHalfWidth(),
+                    worldBounds.getRight() - enemy.getHalfWidth()
                     );
             enemy.setBottom(worldBounds.getTop());
         }
