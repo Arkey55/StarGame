@@ -8,14 +8,15 @@ import ru.geekbrains.star_game.base.BaseButton;
 import ru.geekbrains.star_game.math.Rect;
 import ru.geekbrains.star_game.screen.GameScreen;
 
-public class ButtonPlay extends BaseButton {
+public class ButtonNewGame extends BaseButton {
 
-    private static final float HEIGHT = 0.23f;
-    private static final float MARGIN = 0.05f;
+    private static final float HEIGHT = 0.04f;
+    private static final float MARGIN_BOTTOM = 0.3f;
+    private static final float MARGIN_LEFT = 0.2f;
     private final Game game;
 
-    public ButtonPlay(TextureAtlas atlas, Game game) {
-        super(atlas.findRegion("btPlay"));
+    public ButtonNewGame(TextureAtlas atlas, Game game) {
+        super(atlas.findRegion("button_new_game"));
         this.game = game;
     }
 
@@ -28,8 +29,8 @@ public class ButtonPlay extends BaseButton {
     public void resize(Rect worldBounds) {
         super.resize(worldBounds);
         setHeightProportion(HEIGHT);
-        setBottom(worldBounds.getBottom() + MARGIN);
-        setLeft(worldBounds.getLeft() + MARGIN);
+        setBottom(worldBounds.getBottom() + MARGIN_BOTTOM);
+        setLeft(worldBounds.getLeft() + MARGIN_LEFT);
     }
 
     @Override
